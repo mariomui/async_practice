@@ -1,3 +1,21 @@
+- [Overall Thoughts On Async Concurrency](#overall-thoughts-on-async-concurrency)
+  - [Ultra Learning](#ultra-learning)
+    - [Practice](#practice)
+  - [Concepts](#concepts)
+    - [Concurrency vs Parallelism (WIP)](#concurrency-vs-parallelism-wip)
+    - [Hot and Cold Observables (WIP)](#hot-and-cold-observables-wip)
+    - [Back Pressure](#back-pressure)
+    - [Async Patterns](#async-patterns)
+      - [What is Reactive Programming?](#what-is-reactive-programming)
+      - [What is STM (WIP)](#what-is-stm-wip)
+      - [What is CSP?](#what-is-csp)
+      - [What is Actors? (WIP)](#what-is-actors-wip)
+  - [Facts](#facts)
+  - [Know the Past, Know your future](#know-the-past-know-your-future)
+    - [Description](#description)
+  - [Regarding Observables](#regarding-observables)
+  - [NOTE TO SELF (WIP)](#note-to-self-wip)
+
 # Overall Thoughts On Async Concurrency
 
 ## Ultra Learning
@@ -13,63 +31,76 @@
     * [Programming With Alex: Monads](<https://replit.com/@yi_kankan/monads#index.ts>)
     * [Observables with rxjs](http://reactivex.io/learnrx/)
 
-### Concepts
+## Concepts
 
-* Concurrency vs Parallelism
-* Hot and Cold Observables (WIP)
-  * Definition:
-    * Observables are lazy.
-      * they only produce data when they are subscribed to.
-    * Two subscribers or consumers to a cold observable cannot reliably obtain the same piece of data when the Observable is cold.
-    * A Hot Observable will push the same data to all subscribers at the same time reliably.
-  * Why is this important?
-    * No clue. :)
-* Back Pressure
-  * Description:
-    * without a direct connection, provide a signal from the consumer to producer, either to start or stop streaming.
-    * using the channel or transport road between two parties to communicate information needed for cooperations.
-    * spooky action at a distance.
-  * Why is this useful?
-    * It allows decoupling the consumer and the producer for faster processing when we use the channel as the intermediary for their cooperation.
-    * Squeezing the tube increases pressure on the channel, this pressure, eventually reaches the producer.
-      * single connection, multiple uses.
-      * the act of subscribing to the observable/producer creates the channel.
-* Async Patterns
-  * What is Reactive Programming?
-    * Definition:
-      * a pattern of providing the observable data the mechanisms to schedule notifications to the observer so that the observer can fire business logic.
-    * Technology:
-      * RXJS Observables
-      * Monads
-    * Why is it different or better?
-      * clear boundaries between data and consumption of data
-      * truly reactive
-  * What is STM (WIP)
-    * Definition:
-      * Software Transactional Memory
-      * This is probably an Actor Model.
-    * Why is this important
-      * Rust supports both an async_channel and a sync_channel
-  * What is CSP?
-    * Definition:
-      * Communicating sequential processes (synchronous processes)
-      * Uses blocking techniques to send and receive messages between two or more processes
-    * Why is this important?
-      * Multiple machines/threads running your code
-        * decoupled send and receiving logic.
-        * GO uses this.
-          * I've never seen server process more requests faster than CSP. Out of the box. No tweaking.
-        * Clojurescript uses this
-          * so this is why i'm so attracted to cljs. huh.
-          * this would be pretty good for datalake stuff.
-    * TLDR:
-      * using generators, you create two or more yield envrionments, and the channel activates .next or .pause depending on pub/sub logic.
-    * Modeling concurrency with channels
-  * What is Actors? (WIP)
-    * Definition:
-      * Communicating sequential processes (asynchronous processes)
+### Concurrency vs Parallelism (WIP)
 
-### Facts
+### Hot and Cold Observables (WIP)
+
+* Definition:
+  * Observables are lazy.
+    * they only produce data when they are subscribed to.
+  * Two subscribers or consumers to a cold observable cannot reliably obtain the same piece of data when the Observable is cold.
+  * A Hot Observable will push the same data to all subscribers at the same time reliably.
+* Why is this important?
+  * No clue. :)
+
+### Back Pressure
+
+* Description:
+  * without a direct connection, provide a signal from the consumer to producer, either to start or stop streaming.
+  * using the channel or transport road between two parties to communicate information needed for cooperations.
+  * spooky action at a distance.
+* Why is this useful?
+  * It allows decoupling the consumer and the producer for faster processing when we use the channel as the intermediary for their cooperation.
+  * Squeezing the tube increases pressure on the channel, this pressure, eventually reaches the producer.
+    * single connection, multiple uses.
+    * the act of subscribing to the observable/producer creates the channel.
+
+### Async Patterns
+
+#### What is Reactive Programming?
+
+* Definition:
+  * a pattern of providing the observable data the mechanisms to schedule notifications to the observer so that the observer can fire business logic.
+* Technology:
+  * RXJS Observables
+  * Monads
+* Why is it different or better?
+  * clear boundaries between data and consumption of data
+  * truly reactive
+
+#### What is STM (WIP)
+
+* Definition:
+  * Software Transactional Memory
+  * This is probably an Actor Model.
+* Why is this important
+  * Rust supports both an async_channel and a sync_channel
+
+#### What is CSP?
+
+* Definition:
+  * Communicating sequential processes (synchronous processes)
+  * Uses blocking techniques to send and receive messages between two or more processes
+* Why is this important?
+  * Multiple machines/threads running your code
+    * decoupled send and receiving logic.
+    * GO uses this.
+      * I've never seen server process more requests faster than CSP. Out of the box. No tweaking.
+    * Clojurescript uses this
+      * so this is why i'm so attracted to cljs. huh.
+      * this would be pretty good for datalake stuff.
+* TLDR:
+  * using generators, you create two or more yield envrionments, and the channel activates .next or .pause depending on pub/sub logic.
+* Modeling concurrency with channels
+
+#### What is Actors? (WIP)
+
+* Definition:
+  * Communicating sequential processes (asynchronous processes)
+
+## Facts
 
 * rxjs marbles
 * google everything. lol.
@@ -226,10 +257,11 @@ Why not just Observables for everything and skip async await?
 * Observables are Monads.
 * Monads are far easier if you remove Categorical theory and math from it. We already work with Monads. We just don't know it.
 
----
+## NOTE TO SELF (WIP)
 
 * My brain isn't suited for multithreading.
-* I dont like dealing with bugs
+* I don't like dealing with bugs
 * What's the point of learning multithread and multiprocessing code when single thread has so many techniques?
 * Focusing on single threaded techniques first, and then use multiple computers as message queue systems to do multi process scaling seems awesome to me.
-*
+* [ ] service workers
+* [ ] exercise10
