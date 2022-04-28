@@ -2,6 +2,7 @@
   - [Ultra Learning](#ultra-learning)
     - [Practice](#practice)
   - [Concepts](#concepts)
+    - [What Are Generators?](#what-are-generators)
     - [Concurrency vs Parallelism (WIP)](#concurrency-vs-parallelism-wip)
     - [Hot and Cold Observables (WIP)](#hot-and-cold-observables-wip)
     - [Back Pressure](#back-pressure)
@@ -32,6 +33,12 @@
     * [Observables with rxjs](http://reactivex.io/learnrx/)
 
 ## Concepts
+
+### What Are Generators?
+
+* Further information
+  * See folder:ex_8-generators for a step by step guide
+*
 
 ### Concurrency vs Parallelism (WIP)
 
@@ -265,3 +272,4 @@ Why not just Observables for everything and skip async await?
 * Focusing on single threaded techniques first, and then use multiple computers as message queue systems to do multi process scaling seems awesome to me.
 * [ ] service workers
 * [ ] exercise10
+  * [ ] convert all these exercises to actual rx
