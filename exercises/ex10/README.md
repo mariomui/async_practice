@@ -2,7 +2,7 @@
 
 1. In this exercise, we're going to practice what we've learned about various async patterns so far, using the challenging "A Tale Of Three Lists" demos.
 
-2. Study the similarities/differences of the `ui.js` and `feeds.js` files on the repo (https://github.com/getify/a-tale-of-three-lists#compared-patterns), between these versions: "Plain Callbacks", "Thunks", "Promises", and "Promises+Generators".
+2. Study the similarities/differences of the `ui.js` and `feeds.js` files on the repo (<https://github.com/getify/a-tale-of-three-lists#compared-patterns>), between these versions: "Plain Callbacks", "Thunks", "Promises", and "Promises+Generators".
 
    Then look at the version of the `ui.js` and `feeds.js` files as included in this exercise, which correspond to the "asynquence Flavored" demo version on the repo.
 
@@ -10,4 +10,4 @@
 
    If you have time and want a real challenge, try both versions!
 
-4. Compare your approach to the "Reactive Sequences" and/or "CSP" demo versions on the repo (https://github.com/getify/a-tale-of-three-lists#compared-patterns).
+4. Compare your approach to the "Reactive Sequences" and/or "CSP" demo versions on the repo (<https://github.com/getify/a-tale-of-three-lists#compared-patterns>).

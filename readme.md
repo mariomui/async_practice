@@ -1,3 +1,6 @@
+# TOC
+
+- [TOC](#toc)
 - [Overall Thoughts On Async Concurrency](#overall-thoughts-on-async-concurrency)
   - [Ultra Learning](#ultra-learning)
     - [Practice](#practice)
@@ -99,7 +102,7 @@
       * so this is why i'm so attracted to cljs. huh.
       * this would be pretty good for datalake stuff.
 * TLDR:
-  * using generators, you create two or more yield envrionments, and the channel activates .next or .pause depending on pub/sub logic.
+  * using generators, you create two or more yield environments, and the channel activates .next or .pause depending on pub/sub logic.
 * Modeling concurrency with channels
 
 #### What is Actors? (WIP)
@@ -117,36 +120,37 @@
 ### Description
 
 * The problems you face today are the problems ppl have faced before
-* How did engies deal with it back then?
+* How is this problem historically dealt with?
   * ES5
     * Looping
     * thunks
       * i hate this word.
-      * I'm gonna call it the thundersource pattern
-        * thunderclapper
+      * I'm gonna call it the thunder-source pattern
+        * thunder-clapper
           * houses the callback that retrieves the thunderclap for side effect work.
-          * ```
-            th1((thunderclap) => {
-              ...
-              thc2(thunderclap) => {
-                ...
-              }
-            })
-            ```
-        * thunderer creates the thunderclapper
+            *
+              ```javascript
+                th1((thunderclap) => {
+                  ...
+                  thc2(thunderclap) => {
+                    ...
+                  }
+                })
+              ```
+        * thunderer creates the thunder-clapper
           * thunderer creates the thunder.
-          * we want to thunder early! So we can recieve the thunderclap asap
-          * thunderer has to worry about the logic of the thunderclapper
+          * we want to thunder early! So we can receive the thunder-clap asap
+          * thunderer has to worry about the logic of the thunder-clapper
 
 * ES5
-  * No promises, no aysnc await, no generators
+  * No promises, no async await, no generators
   * Techniques:
     * looping
       * terrible looking code
     * thunking
       * still callback hell
-      * still too much control over to the webapis
-        * no intermediary queue to handle webapi results
+      * still too much control over to the web-apis
+        * no intermediary queue to handle web-api results
 * ES6
   * 2015
   * Promises Introduced
@@ -167,8 +171,8 @@
     * Working with state
       * when working with continuously streaming data, you will eventually reach a point where someone is hitting your machine with a lot of requests. You can queue it up but it might interfere with your state in weird ways when you have an advanced ping pong match with 8 people.
       * cancellable events?
-        * ever tried making a cancellable REST api rquest ?
-        * or a cancellabe state action creator?
+        * ever tried making a cancellable REST api request ?
+        * or a cancellable state action creator?
           * middleware with thunks
             * way complicated
 
@@ -184,7 +188,7 @@ Why not just Observables for everything and skip async await?
 * What are coroutines?
   * Coroutines are routines that queue up time intensive chores so that they are in the proper order
 * Can you explain this in terms I understand?
-  * Aync await solves the problem of queueing up TICs
+  * Async await solves the problem of queueing up TICs
   * Example 1A in plain english:
     * Boss: I need the team to do my chores.
     * Team: okay, We have 3 ppl.
@@ -193,7 +197,7 @@ Why not just Observables for everything and skip async await?
       * boss: Simon, go to the airport and buy me a airplane ticket.
       * boss: Theodore, buy me a movie ticket.
         * Team: Can't we do this on our phone?
-    * Boss: No and I want you to hand your reciepts in the order I asked you to as fast as you can. If Simon gets back late, Theodore, you need to await him. IN order. And as fast as you can.
+    * Boss: No and I want you to hand your receipts in the order I asked you to as fast as you can. If Simon gets back late, Theodore, you need to await him. IN order. And as fast as you can.
     * Team: *groan*
   * Example 1A in abstracted mapped talk
     * Fetch 3 pieces of data
@@ -205,19 +209,19 @@ Why not just Observables for everything and skip async await?
       * if Alvin is late, Simon cannot hand his receipt first, he has to wait for it.
       * the logic/notification, in this case, is handing the receipt to the boss.
     * the initiation of fetch2 and fetch3 must still happen
-      * Alvin, simon, and theo must set out do their chores at the same time.
+      * Alvin, Simon, and Theodore must set out do their chores at the same time.
   * Example 1A in concrete talk using generators
     * You create a link to a memory
     * In this memory is a function
       *
-      ```js
-      const generator = function* generator() {
-        ...code...
-        yield [chore1]
-        yield [chore2]
-      }
-      const iterator = generator()
-      ```
+        ```js
+        const generator = function* generator() {
+          ...code...
+          yield [chore1]
+          yield [chore2]
+        }
+        const iterator = generator()
+        ```
     * what does calling generator do?
     * It only points the iterator to the memory.
       * it does not execute any code inside the generator.
@@ -230,34 +234,34 @@ Why not just Observables for everything and skip async await?
         * this will pass the number 3
     * What's the point?
       * We can start TIC earlier in the code, but apply logic to them in order. Maybe Simon requires Alvin to sign his receipt before handing it in.
-      * TIC that are independnet on each other can have LOGIC applied to them that is dependent. Maybe the sandiwch is special, and allows the Boss to regain his eyesight so he can actually see the airplane ticket.
+      * TIC that are independent on each other can have LOGIC applied to them that is dependent. Maybe the sandwich is special, and allows the Boss to regain his eyesight so he can actually see the airplane ticket.
     * How does it work practically in code?
       * you eventually want to just list a bunch of chores, the logic for each one in the same generator.
-      * And you sortah want to call the next function in the chore itself.
-        * i want alvin to notify simon when alvin has the sandwich.
-        * i want simon to notify theodore when simon has the ticket.
+      * your ultimate goal is to call the next function in the chore itself.
+        * i want Alvin to notify Simon when Alvin has the sandwich.
+        * i want Simon to notify Theodore when Simon has the ticket.
         * etc
-      * So the chore itself, does the nexting.
-        * The problem here is you want Alvin to wait till his sandwich is given to the boss before notifying simon.
-        * And in JS , starting the fetch early, means its synchronous. Alvin wont understand not to notify simon. he's a chipmunk for crying out loud.
-        * You can invert control over to a webapi.
+      * So the chore itself, does the next-ing.
+        * The problem here is you want Alvin to wait till his sandwich is given to the boss before notifying Simon.
+        * And in JS , starting the fetch early, means its synchronous. Alvin wont understand not to notify Simon. he's a chipmunk for crying out loud.
+        * You can invert control over to a web-api.
           * handing it over to a queueing service ensures that things happen in a timely order.
           * Except you are handing over control and things might hiccup.
-          * It's also global. So anything else calling the setTimeout will interfere. Anythign on the callstack will interfere.
+          * It's also global. So anything else calling the setTimeout will interfere. Anything on the callstack will interfere.
           * The code sucks.
           * setTimeout(fn, 0)
-            * i've done this a lot as a 2nd year engineering worker so dont feel bad. I'm dumb too.
+            * i've done this a lot as a 2nd year engineering worker so don't feel bad. I'm dumb too.
           * in cs , this is called inversion of control.
-      * How can we do the nexting intelligently and local to the generator function?
+      * How can we do the next-ing intelligently and local to the generator function?
         * Use Promises.
         * Instead of yield Chore1
           * yield PromiseChore1
-          * aka yield Reciept
+          * aka yield Receipt
         * Only when the promise resolves does the next function fire.
           * this is how async await works. await is yield.
           * That's why await requires a promise.
           * That's why async returns a promise.
-            * see prom+genv2.js to see a vanilla implementation of generators.
+            * see `prom + genv2.js` to see a vanilla implementation of generators.
 
 ## Regarding Observables
 
@@ -272,4 +276,4 @@ Why not just Observables for everything and skip async await?
 * Focusing on single threaded techniques first, and then use multiple computers as message queue systems to do multi process scaling seems awesome to me.
 * [ ] service workers
 * [ ] exercise10
-  * [ ] convert all these exercises to actual rx
+  * [ ] convert all these exercises to actual rxjs
